@@ -1,9 +1,10 @@
 import { UsersService } from './users.service';
-import { Controller, Get,Post , Req , Param, Body, Delete} from '@nestjs/common';
+import { Controller, Get,Post , Req , Param, Body, Delete, Patch} from '@nestjs/common';
 import { Request } from 'express';
-import { CreateUserDto } from './dto/users-dto';
+import { CreateUserDto } from './dto/create-user-dto';
 import { User } from './interfaces/user-interface';
 import { ValidateObjectIdPipe } from 'src/decorators/validate-uuid';
+import { UpdateUserDto } from './dto/update-user-dto';
 
 @Controller('user')
 export class UsersController {
@@ -17,9 +18,9 @@ export class UsersController {
   async findAll(@Req() request:Request): Promise<User[]> {
     return this.usersService.findAll();
   }
-  @Get(':id')
-  findOne(@Param("id",ValidateObjectIdPipe) id: string): Promise<User> {
-    return this.usersService.findOne(id);
+  @Patch(':id')
+  findOne(@Param("id",ValidateObjectIdPipe) id: string,@Body() updateUserDto:UpdateUserDto): Promise<User> {
+    return this.usersService.update(id,updateUserDto);
   }
   @Delete(':id')
   remove(@Param('id',ValidateObjectIdPipe) id: string) {

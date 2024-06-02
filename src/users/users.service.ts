@@ -1,9 +1,10 @@
 import { ConflictException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from './interfaces/user-interface';
-import { CreateUserDto } from './dto/users-dto';
+import { CreateUserDto } from './dto/create-user-dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { tryToCatch } from 'src/utils/try-to-catch';
+import { UpdateUserDto } from './dto/update-user-dto';
 
 @Injectable()
 export class UsersService { 
@@ -35,7 +36,7 @@ export class UsersService {
         return this.userModel.findById(id).exec();
       }
     
-    async update(id: string, updateUserDto: CreateUserDto): Promise<User> {
+    async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
         return this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true }).exec();
     }
 
